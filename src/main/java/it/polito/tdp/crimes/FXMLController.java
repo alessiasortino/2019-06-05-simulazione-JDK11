@@ -6,6 +6,8 @@ package it.polito.tdp.crimes;
 
 
 import java.net.URL;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -31,10 +33,10 @@ public class FXMLController {
     private ComboBox<Integer> boxAnno; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxMese"
-    private ComboBox<?> boxMese; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxMese; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxGiorno"
-    private ComboBox<?> boxGiorno; // Value injected by FXMLLoader
+    private ComboBox<Integer> boxGiorno; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnCreaReteCittadina"
     private Button btnCreaReteCittadina; // Value injected by FXMLLoader
@@ -70,6 +72,33 @@ public class FXMLController {
 
     @FXML
     void doSimula(ActionEvent event) {
+    	this.txtResult.clear();
+    	Integer anno, mese, giorno, N;
+    	try {
+    		N=Integer.parseInt(txtN.getText());
+    	}catch(NumberFormatException n){
+    		txtResult.appendText("Formato N non corretto");
+    		return;
+    		
+    	}
+    	anno= boxAnno.getValue();
+    	mese= boxMese.getValue();
+    	giorno= boxGiorno.getValue();
+    	
+    	if(anno==null||mese==null || giorno ==null) {
+    		txtResult.appendText("seleziona tutti i campi!");
+    		return;
+    	}
+    	
+    	try {
+    		LocalDate.of(anno,mese,giorno);
+    	}catch(DateTimeException e) {
+    		txtResult.appendText("Data non corretta!");
+    		return;
+    	}
+    	txtResult.appendText("SIMULA CON "+ N+ " AGENTI!\n");
+    	
+    	txtResult.appendText("crimini mal gestiti = "+model.simula(anno, mese, giorno, N));
 
     }
 
@@ -89,5 +118,9 @@ public class FXMLController {
     	this.model = model;
     	
     	boxAnno.getItems().addAll(model.getAnni());
+    	boxMese.getItems().addAll(model.getMesi());
+    	boxGiorno.getItems().addAll(model.getGiorni());
+    	
+    	
     }
 }

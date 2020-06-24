@@ -201,8 +201,7 @@ try {
 
 	
 	public List<Event> listEventsBYDate(Integer anno , Integer mese, Integer giorno){
-		String sql = "SELECT * FROM events WHERE year(reported_date)=?"
-				+ "AND Month(reported_date)=? And Day(reported_date)=?" ;
+		String sql = "SELECT * FROM events WHERE year(reported_date)=? AND Month(reported_date)=? And Day(reported_date)=?";
 		try {
 			Connection conn = DBConnect.getConnection() ;
 
@@ -246,9 +245,61 @@ try {
 			return null ;
 		}
 	}
-	
+	public List <Integer> getMesi() {
+		String sql= "SELECT DISTINCT Month(reported_date) as a FROM events";
+		try {
+			List <Integer> result= new ArrayList <>();
+		
+			Connection conn = DBConnect.getConnection() ;
 
-	
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			
+			
+			
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				int a= res.getInt("a");
+				result.add(a);
+				
+			}
+			conn.close();
+			return result ;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
+	}
+
+	public List <Integer> getGiorni() {
+		String sql= "SELECT DISTINCT Day(reported_date) as a FROM events";
+		try {
+			List <Integer> result= new ArrayList <>();
+		
+			Connection conn = DBConnect.getConnection() ;
+
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			
+			
+			
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				int a= res.getInt("a");
+				result.add(a);
+				
+			}
+			conn.close();
+			return result ;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
+	}
 	
 
 }

@@ -84,4 +84,22 @@ public class Model {
 		// TODO Auto-generated method stub
 		return this.graph.vertexSet();
 	}
+	
+	
+	public int simula(Integer anno, Integer mese, Integer giorno, Integer N) {
+		Simulator sim= new Simulator();
+		sim.init(N, anno, mese, giorno, this.graph);
+		return sim.run();
+		
+	}
+	public List<Integer> getMesi() {
+		return dao.getMesi();
+		
+	}
+	public List<Integer> getGiorni() {
+	return dao.getGiorni();
+	}
+
+
+	
 }
