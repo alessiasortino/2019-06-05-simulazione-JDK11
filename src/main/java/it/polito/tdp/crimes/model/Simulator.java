@@ -39,6 +39,7 @@ public class Simulator {
 		this.anno=anno;
 		this.mese=mese;
 		this.giorno=giorno;
+		this.graph=graph;
 		
 		this.malGestiti=0;
 		this.agenti= new HashMap<>();
@@ -157,16 +158,21 @@ public class Simulator {
 					distanza=0.0;
 					distretto=a;
 					
-			}else if(this.graph.getEdgeWeight(this.graph.getEdge(district_id, a))<distanza) {
+			}else {
+				
+			DefaultWeightedEdge arco=this.graph.getEdge(district_id, a);
+				if(this.graph.getEdgeWeight(arco)<distanza) {
+			
 					distanza= this.graph.getEdgeWeight(graph.getEdge(district_id,a));
 					distretto= a;
 					
 				}
 			}
 		}
+		}
 		return distretto;
+	
+	
 	}
-	
-	
 
 }
